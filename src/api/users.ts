@@ -8,6 +8,13 @@ import { setList, onLoad } from "../redux/users_list_slice";
 const client = new PocketBase('http://127.0.0.1:8090');
 
 //Fetching data using REST API
+export const createRecord = async (record: IUser) => {
+    try {
+        await axios.post(`http://127.0.0.1:8090/api/collections/users_data/records`, record)
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
 export const fetchRecords = async () => {
     try {
         const result = await axios.get('http://127.0.0.1:8090/api/collections/users_data/records?sort=-created')
@@ -23,6 +30,15 @@ export const searchRecords = async (keyword: string) => {
         store.dispatch(setList(result.data.items))
     } catch (error: any) {
         throw new Error(error);
+    }
+}
+
+export const checkUsername = async (username: string) => {
+    try {
+        const result = await axios.get(`http://127.0.0.1:8090/api/collections/users_data/records?filter=(user_name='${username}')`)
+        return result.data.items[0].id
+    } catch (error: any) {
+        return null
     }
 }
 

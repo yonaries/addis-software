@@ -6,6 +6,7 @@ import editIcon from '../../assets/Edit_fill.svg'
 import removeIcon from '../../assets/Remove.svg'
 import { IUser } from '../../model/user'
 import { selectUid } from '../../redux/uid_slice'
+import Delete from '../record/delete'
 import View from '../record/view'
 
 type Props = {
@@ -13,22 +14,25 @@ type Props = {
 
 const TableList = (props: Props) => {
     const list = useSelector<RootState>(state => state.records.list) as IUser[]
-    const [modal, setModal] = useState<boolean>(false)
+    const [deleteId, setDeleteId] = useState<string>('')
+    const [viewModal, setViewModal] = useState<boolean>(false)
     const [readOnly, setReadOnly] = useState<boolean>(true)
     const dispatch = useDispatch()
 
     function closeModal() {
         setReadOnly(true)
-        setModal(false)
+        setViewModal(false)
+        setDeleteId('')
     }
-    function updateHandler() {
+    function updateHandler(uid: string) {
+        dispatch(selectUid(uid))
         setReadOnly(false)
-        setModal(true)
+        setViewModal(true)
     }
     function viewHandler(uid: string) {
         dispatch(selectUid(uid))
         setReadOnly(true)
-        setModal(true)
+        setViewModal(true)
     }
 
     return (
@@ -48,14 +52,15 @@ const TableList = (props: Props) => {
                         <td>{user.email}</td>
                         <td className='md:w-48'>{user.phone}</td>
                         <td className="flex justify-evenly pt-2">
-                            <img className='z-10 border-2 border-transparent rounded-md hover:bg-zinc-800 transition-all' src={editIcon} onClick={updateHandler} />
-                            <img className='z-10 border-2 border-transparent rounded-md hover:bg-zinc-800 transition-all' src={removeIcon} onClick={() => deleteRecord(user.id!)} />
+                            <img className='border-2 border-transparent rounded-md hover:bg-zinc-800 transition-all' src={editIcon} onClick={() => updateHandler(user.id!)} />
+                            <img className='border-2 border-transparent rounded-md hover:bg-zinc-800 transition-all' src={removeIcon} onClick={() => setDeleteId(user.id!)} />
                         </td>
                     </tr>
                     )}
                 </tbody>
             </table>
-            {modal && <View readonly={readOnly} close={closeModal} />}
+            {viewModal && <View readonly={readOnly} close={closeModal} />}
+            {deleteId && <Delete uid={deleteId} close={closeModal} />}
         </>
     )
 }

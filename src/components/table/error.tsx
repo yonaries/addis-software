@@ -1,6 +1,4 @@
-import React from 'react'
-import { Flex, Heading, Text, Button } from 'rebass'
-import { fetchRecords } from '../../api/users'
+import { Button, Flex, Heading, Text } from 'rebass'
 import { errorBtnStyle } from '../../style/style'
 
 type Props = {
@@ -17,11 +15,11 @@ const ErrorUI = (props: Props) => {
                 <div className='space-y-7'>
                     <div>
                         <Heading fontFamily={'Poppins'} fontSize={'1.5rem'} textAlign={'center'} fontWeight={'bold'}>Something is not right.</Heading>
-                        <Text textAlign={'center'}>Please check if pocketbase server is started.</Text>
+                        <Text textAlign={'center'}>Please check if pocketbase server has initiated</Text>
                     </div>
                     <div className='block bg-neutral-600 bg-opacity-50 rounded-md p-3 my-3 space-y-2'>
-                        <Text fontFamily={'Courier New'} className='text-neutral-400 pb-1'>// start server with</Text>
-                        <code >$ ./pocketbase serve</code>
+                        <Text fontFamily={'Courier New'} className='text-neutral-500 pb-1'>// start server with</Text>
+                        <code className='text-neutral-300 pb-1'>$ ./pocketbase serve</code>
                     </div>
                     <Button className={errorBtnStyle} onClick={() => tryAgainHandler()}>Try again</Button>
                 </div>
