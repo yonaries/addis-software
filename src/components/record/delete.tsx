@@ -19,7 +19,7 @@ const Delete = (props: Props) => {
                     <Heading fontFamily={'Poppins'} className='pb-4 font-bold text-2xl text-slate-200'>Delete Record</Heading>
                     <Text className='text-slate-400'>By confirming, the record will be deleted permanently. this action cannot be undone.</Text>
                 </div>
-                <Flex justifyContent={'space-between'} marginTop={'1.75rem'}>
+                <Flex className='space-x-3' justifyContent={'space-between'} marginTop={'1.75rem'}>
                     <Button onClick={() => props.close()} className={mainBtnStyle}>Cancel</Button>
                     <Button onClick={() => deleteHandler()} className={errorBtnStyle} type='submit'>Delete Record</Button>
                 </Flex>

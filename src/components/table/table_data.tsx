@@ -46,8 +46,8 @@ const TableList = (props: Props) => {
                     <th>Action</th>
                 </thead>
                 <tbody className='text-slate-50 px-5'>
-                    {list.map((user: IUser) => <tr onDoubleClick={() => viewHandler(user.id!)} className='h-11 cursor-pointer hover:bg-zinc-700 transition-all' key={user.id}>
-                        <td className="px-5">{user.id}</td>
+                    {list.map((user: IUser, index) => <tr onDoubleClick={() => viewHandler(user.id!)} className='h-11 cursor-pointer hover:bg-zinc-700 transition-all' key={user.id}>
+                        <td className="px-5">{index + 1}</td>
                         <td>{user.full_name}</td>
                         <td>{user.email}</td>
                         <td className='md:w-48'>{user.phone}</td>

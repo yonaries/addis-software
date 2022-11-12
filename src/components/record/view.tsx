@@ -78,7 +78,7 @@ const View = (props: Props) => {
                         <input readOnly={readOnly} onChange={inputHandler} className={inputStyle} name='zipcode' value={record.zipcode} type="text" placeholder='Zip Code' />
                         {readOnly ?
                             <Button onClick={() => setReadOnly(false)} className={mainBtnStyle} >Update Record</Button>
-                            : <Flex justifyContent={'space-between'}>
+                            : <Flex className='space-x-3' justifyContent={'space-between'}>
                                 <Button onClick={() => props.close()} className={errorBtnStyle}>Cancel</Button>
                                 <Button onClick={submitHandler} className={mainBtnStyle} type='submit'>Save Record</Button>
                             </Flex>
