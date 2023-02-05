@@ -56,7 +56,6 @@ export const getOneRecord = async (id: string, setState: Function) => {
 export const updateRecord = async (id: string, record: IUser) => {
     try {
         await client.records.update('users_data', id, record);
-        fetchRecords() // update list After updating record
     } catch (error: any) {
         throw new Error(error);
     }
@@ -65,7 +64,6 @@ export const updateRecord = async (id: string, record: IUser) => {
 export const deleteRecord = async (id: string) => {
     try {
         await client.records.delete('users_data', id);
-        fetchRecords() // update list After deleting record
     } catch (error: any) {
         throw new Error(error);
     }

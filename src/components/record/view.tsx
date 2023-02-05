@@ -1,17 +1,18 @@
-import { FocusEventHandler, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Box, Button, Card, Flex, Heading, Text } from "rebass";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Card, Flex, Heading } from "rebass";
 import { RootState } from "../..";
 import { checkUsername, getOneRecord, updateRecord } from "../../api/users";
 import { IUser } from "../../model/user";
 import {
-  mainBtnStyle,
-  errorBtnStyle,
-  inputStyle,
+  Button,
+  DangerButton,
   closeBtnStyle,
+  inputStyle,
   requiredInputStyle,
 } from "../../style/style";
 import Loading from "../loading";
+import { REQUEST_API_RECORD } from "../../redux/sagaActions";
 
 type Props = {
   readonly: boolean;
@@ -34,6 +35,7 @@ const View = (props: Props) => {
     street: "",
     zipcode: "",
   });
+  const dispatch = useDispatch();
 
   const inputHandler = (e: any) => {
     setRecord({ ...record, [e.target.name]: e.target.value });
@@ -51,6 +53,7 @@ const View = (props: Props) => {
     try {
       //update record and close modal
       await updateRecord(uid, record);
+      dispatch({ type: REQUEST_API_RECORD });
       props.close();
     } catch (error) {
       //trigger input error
@@ -195,22 +198,13 @@ const View = (props: Props) => {
               placeholder="Zip Code"
             />
             {readOnly ? (
-              <Button
-                onClick={() => setReadOnly(false)}
-                className={mainBtnStyle}
-              >
-                Update Record
-              </Button>
+              <Button onClick={() => setReadOnly(false)}>Update Record</Button>
             ) : (
               <Flex className="space-x-3" justifyContent={"space-between"}>
-                <Button onClick={() => props.close()} className={errorBtnStyle}>
+                <DangerButton onClick={() => props.close()}>
                   Cancel
-                </Button>
-                <Button
-                  onClick={submitHandler}
-                  className={mainBtnStyle}
-                  type="submit"
-                >
+                </DangerButton>
+                <Button onClick={submitHandler} type="submit">
                   Save Record
                 </Button>
               </Flex>

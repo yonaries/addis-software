@@ -1,6 +1,8 @@
-import { Button, Card, Flex, Heading, Text } from "rebass";
+import { Card, Flex, Heading, Text } from "rebass";
 import { deleteRecord } from "../../api/users";
-import { errorBtnStyle, mainBtnStyle } from "../../style/style";
+import { DangerButton, Button } from "../../style/style";
+import { useDispatch } from "react-redux";
+import { REQUEST_API_RECORD } from "../../redux/sagaActions";
 
 type Props = {
   uid: string;
@@ -8,8 +10,10 @@ type Props = {
 };
 
 const Delete = (props: Props) => {
+  const dispatch = useDispatch();
   const deleteHandler = () => {
     deleteRecord(props.uid);
+    dispatch({ type: REQUEST_API_RECORD });
     props.close();
   };
   return (
@@ -39,16 +43,10 @@ const Delete = (props: Props) => {
           justifyContent={"space-between"}
           marginTop={"1.75rem"}
         >
-          <Button onClick={() => props.close()} className={mainBtnStyle}>
-            Cancel
-          </Button>
-          <Button
-            onClick={() => deleteHandler()}
-            className={errorBtnStyle}
-            type="submit"
-          >
+          <Button onClick={() => props.close()}>Cancel</Button>
+          <DangerButton onClick={() => deleteHandler()} type="submit">
             Delete Record
-          </Button>
+          </DangerButton>
         </Flex>
       </Card>
     </Flex>
