@@ -5,7 +5,7 @@ const initialState = {
 }
 
 const uidSlice = createSlice({
-    name: 'selectedView',
+    name: 'REQUEST_API_RECORD',
     initialState,
     reducers: {
         selectUid: (state, action) => {

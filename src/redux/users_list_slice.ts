@@ -1,17 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { IUser } from '../model/user'
 
 const initialState = {
     isLoaded: false,
-    list: []
+    list: Array<IUser>
 }
 
 const recordsSlice = createSlice({
-    name: 'selectedView',
+    name: 'REQUEST_API_RECORD',
     initialState,
     reducers: {
         setList: (state, action) => {
-            state.list = action.payload
-            state.isLoaded = true
+            return {
+                isLoaded:true,
+                list:action.payload
+            }
         },
         onLoad: (state) => {
             state.isLoaded = false
