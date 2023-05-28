@@ -1,8 +1,6 @@
 import axios from "axios";
 import PocketBase from "pocketbase";
-import { store } from "..";
 import { IUser } from "../model/user";
-import { onLoad, setList } from "../redux/users_list_slice";
 
 //using pocketbase JS client SDK
 const client = new PocketBase("http://127.0.0.1:8090");
