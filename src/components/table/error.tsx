@@ -1,13 +1,13 @@
+import { useDispatch } from "react-redux";
 import { Flex, Heading, Text } from "rebass";
 import { DangerButton } from "../../style/style";
 
-type Props = {
-  setError: Function;
-};
+type Props = {};
 
 const ErrorUI = (props: Props) => {
+  const dispatch = useDispatch();
   const tryAgainHandler = () => {
-    props.setError(false);
+    dispatch({ type: "REQUEST_API_RECORD" });
   };
   return (
     <Flex
@@ -33,7 +33,7 @@ const ErrorUI = (props: Props) => {
           </div>
           <div className="block bg-neutral-600 bg-opacity-50 rounded-md p-3 my-3 space-y-2">
             <Text fontFamily={"Courier New"} className="text-neutral-500 pb-1">
-              // start server with
+              <p>&#47;&#47;start server with</p>
             </Text>
             <code className="text-neutral-300 pb-1">$ ./pocketbase serve</code>
           </div>

@@ -11,8 +11,8 @@ type Props = {
 
 const Delete = (props: Props) => {
   const dispatch = useDispatch();
-  const deleteHandler = () => {
-    deleteRecord(props.uid);
+  const deleteHandler = async () => {
+    await deleteRecord(props.uid);
     dispatch({ type: REQUEST_API_RECORD });
     props.close();
   };

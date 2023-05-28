@@ -23,7 +23,7 @@ const View = (props: Props) => {
   const uid = useSelector<RootState>((state) => state.uid.current) as string;
   const [readOnly, setReadOnly] = useState<boolean>(props.readonly);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [isTaken, setIsTaken] = useState<boolean>(false);
+  const [isUsernameTaken, setIsUsernameTaken] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [record, setRecord] = useState<IUser>({
     full_name: "",
@@ -39,13 +39,13 @@ const View = (props: Props) => {
 
   const inputHandler = (e: any) => {
     setRecord({ ...record, [e.target.name]: e.target.value });
-    if (e.target.name == "user_name") {
+    if (e.target.name === "user_name") {
       checkUsername(e.target.value).then((result) => {
         !result
-          ? setIsTaken(false)
-          : result == uid
-          ? setIsTaken(false)
-          : setIsTaken(true);
+          ? setIsUsernameTaken(false)
+          : result === uid
+          ? setIsUsernameTaken(false)
+          : setIsUsernameTaken(true);
       });
     }
   };
@@ -56,21 +56,20 @@ const View = (props: Props) => {
       dispatch({ type: REQUEST_API_RECORD });
       props.close();
     } catch (error) {
-      //trigger input error
+      //trigger invalid input error
       setError(true);
     }
   };
 
-  //get selected record data
-  const fetchRecord = () => {
-    getOneRecord(uid, setRecord).then(() => setIsLoaded(true));
-  };
-
   useEffect(() => {
-    return () => {
-      fetchRecord();
+    //get selected record data
+    const fetchSingleRecord = () => {
+      getOneRecord(uid, setRecord).then(() => setIsLoaded(true));
     };
-  }, []);
+    return () => {
+      fetchSingleRecord();
+    };
+  }, [uid]);
 
   return (
     <Flex
@@ -113,7 +112,7 @@ const View = (props: Props) => {
               readOnly={readOnly}
               onChange={inputHandler}
               className={
-                isTaken
+                isUsernameTaken
                   ? requiredInputStyle
                   : record.user_name
                   ? inputStyle
@@ -126,7 +125,7 @@ const View = (props: Props) => {
               type="text"
               placeholder="username"
             />
-            {isTaken && (
+            {isUsernameTaken && (
               <label className="font-bold text-xs text-red-500">
                 username is taken
               </label>

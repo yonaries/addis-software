@@ -15,7 +15,7 @@ type Props = {
 
 const RecordForm = (props: Props) => {
   //state to track if username is taken
-  const [isTaken, setIsTaken] = useState<boolean>(false);
+  const [isUsernameTaken, setIsUsernameTaken] = useState<boolean>(false);
 
   //error state for invalid input
   const [error, setError] = useState<boolean>(false);
@@ -33,10 +33,10 @@ const RecordForm = (props: Props) => {
   });
 
   const inputHandler = (e: any) => {
-    setNewRecord({ ...newRecord, [e.target.name]: e.target.value });
-    if (e.target.name == "user_name") {
+    setNewRecord({ ...newRecord, [e.target.name]: e.target.value }); //creating a new object with the input field name as key and the value
+    if (e.target.name === "user_name") {
       checkUsername(e.target.value).then((result) =>
-        result ? setIsTaken(true) : setIsTaken(false)
+        result ? setIsUsernameTaken(true) : setIsUsernameTaken(false)
       );
     }
   };
@@ -91,7 +91,7 @@ const RecordForm = (props: Props) => {
           <input
             onChange={inputHandler}
             className={
-              isTaken
+              isUsernameTaken
                 ? requiredInputStyle
                 : newRecord.user_name
                 ? inputStyle
@@ -104,7 +104,7 @@ const RecordForm = (props: Props) => {
             type="text"
             placeholder="username"
           />
-          {isTaken && (
+          {isUsernameTaken && (
             <label className="font-bold text-xs text-red-500">
               username is taken
             </label>

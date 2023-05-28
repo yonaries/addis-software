@@ -7,7 +7,7 @@ import Loading from "../loading";
 import RecordForm from "../record/record_form";
 import SearchBar from "../search_bar";
 import ErrorUI from "./error";
-import TableList from "./table_data";
+import DataTable from "./table_data";
 import { REQUEST_API_RECORD } from "../../redux/sagaActions";
 
 type Props = {};
@@ -18,7 +18,9 @@ const Table = (props: Props) => {
     (state) => state.records.isLoaded
   ) as boolean;
   const [modal, setModal] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
+  const error = useSelector<RootState>(
+    (state) => state.records.error
+  ) as boolean;
 
   function closeModal() {
     dispatch({ type: REQUEST_API_RECORD });
@@ -26,8 +28,10 @@ const Table = (props: Props) => {
   }
 
   useEffect(() => {
-    dispatch({ type: REQUEST_API_RECORD });
-  }, [error]);
+    setTimeout(() => {
+      dispatch({ type: REQUEST_API_RECORD });
+    }, 1000);
+  });
 
   return (
     <div className="bg-zinc-800 m-5 rounded-md w-2/3 overflow-scroll shadow-xl">
@@ -42,10 +46,10 @@ const Table = (props: Props) => {
         </Button>
       </Box>
       {error ? (
-        <ErrorUI setError={setError} />
+        <ErrorUI />
       ) : (
         <>
-          {isLoaded ? <TableList /> : <Loading />}
+          {isLoaded ? <DataTable /> : <Loading />}
           {modal && <RecordForm close={closeModal} />}
         </>
       )}
